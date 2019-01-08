@@ -4,6 +4,10 @@
 #include <list>
 #include <map>
 #include <exception>
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+
 #define DEBUG 0
 
 template<class T>

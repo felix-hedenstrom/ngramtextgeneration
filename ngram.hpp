@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 template<class T>
 class ngram{
@@ -22,6 +23,9 @@ public:
   const T operator[](const size_t & i) const {
     return this->elements[i];
   }
+  template <class Y>
+  friend std::ostream& operator<<(std::ostream& stream, const ngram<Y> n);
+
 };
 
 template<class T>
@@ -40,6 +44,16 @@ bool operator< (const ngram<T>& lhs, const ngram<T>& rhs){
     }
   }
   return false;
+}
+
+template<class T>
+std::ostream& operator<<(std::ostream& stream, const ngram<T> n){
+  stream << "{" << n.elements[0];
+  for (size_t i = 1; i < n.elements.size(); i++){
+    stream << ", " << n.elements[i];
+  }
+  stream << "}";
+  return stream;
 }
 
 template<class T>

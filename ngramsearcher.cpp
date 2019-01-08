@@ -3,17 +3,8 @@
 #include <fstream>
 #include <iostream>
 #include "graph.hpp"
-#include "test.hpp"
-
-#define TEST 1
 
 int main(){
-  if(TEST){
-    int result = test_all();
-    if (result != 0){
-      return result;
-    }
-  }
 
   Json::Value ngrams;
 

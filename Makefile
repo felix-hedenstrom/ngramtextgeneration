@@ -1,12 +1,12 @@
-all: ngram
+all: ngram test
 
 
 
 ngram: ngramsearcher.cpp *.hpp
-	g++ -o $@ $< -Wall -ljsoncpp -g
+	g++ -o $@ $< -Wall -ljsoncpp
 
-test: ngram
-	./filler
+test: test.cpp *.hpp
+	g++ -o $@ $< -Wall -ljsoncpp -g && ./test
 
 valgrind: ngram
-	valgrind ./filler  --track-origins=yes --leak-check=ful
+	valgrind ./ngram  --show-reachable=yes --track-origins=yes --leak-check=full --show-leak-kinds=all -v

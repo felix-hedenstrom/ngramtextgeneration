@@ -45,13 +45,13 @@ const std::string test_custom_comparator(){
   std::cerr << "Starting custom comparator test..." << std::endl;
   std::map<int, std::vector<int>> neighbors;
 
-  neighbors.insert({1, {2, 4}});
+  neighbors.insert({1, {2, 4, 5}});
   neighbors.insert({2, {1}});
   neighbors.insert({3, {2, 4}});
   neighbors.insert({4, {1, 3}});
-  graph<int> g ({1, 2, 3, 4}, neighbors, [](int a, int b){return (a % 2) == (b % 2);});
-  std::list<int> path = g.bfs(1, 3);
-  if(path.size() == 3){
+  graph<int> g ({1, 2, 3, 4, 5}, neighbors, [](int a, int b){return (a % 2) == (b % 2);});
+  std::list<int> path = g.bfs(1, 2);
+  if(path.size() == 2){
     return "";
   }
   return "Returned wrong path.";
@@ -92,33 +92,34 @@ const std::string test_ngram_comparator(){
 }
 
 const std::string test_ngram_path(){
-  /*
+  std::clog << "Starting ngram path test..." << std::endl;
   typedef ngram<std::string> testngram;
   std::map<testngram, std::vector<testngram>> neighbors;
   neighbors.insert({ngram<std::string>({"this", "is", "a"}), {ngram<std::string>({"is", "a", "test"}),
                                                              ngram<std::string>({"is", "a", "thing"}),
                                                              ngram<std::string>({"is", "a", "bad"})}});
 
-  neighbors.insert({ngram<std::string>({"a", "test", "to"}), {ngram<std::string>({"test", "to", "see"})}});
   neighbors.insert({ngram<std::string>({"is", "a", "test"}), {ngram<std::string>({"a", "test", "to"})}});
+  neighbors.insert({ngram<std::string>({"a", "test", "to"}), {ngram<std::string>({"test", "to", "see"})}});
   neighbors.insert({ngram<std::string>({"test", "to", "see"}), {ngram<std::string>({"to", "see", "if"}), ngram<std::string>({"to", "see", "when"})}});
   neighbors.insert({ngram<std::string>({"to", "see", "if"}), {ngram<std::string>({"see", "if", "it"})}});
   neighbors.insert({ngram<std::string>({"see", "if", "it"}), {ngram<std::string>({"if", "it", "works"})}});
 
-  graph<testngram> g ({ngram<std::string>({"this", "is", "a"}), ngram<std::string>({"is", "a", "thing"}), ngram<std::string>({"is", "a", "bad"}),
+  graph<testngram> g ({ngram<std::string>({"this", "is", "a"}), ngram<std::string>({"is", "a", "test"}), ngram<std::string>({"is", "a", "thing"}),
+                 ngram<std::string>({"is", "a", "bad"}),
                  ngram<std::string>({"a", "test", "to"}), ngram<std::string>({"test", "to", "see"}), ngram<std::string>({"to", "see", "if"}),
                  ngram<std::string>({"to", "see", "when"}),
                  ngram<std::string>({"see", "if", "it"}), ngram<std::string>({"if", "it", "works"})}, neighbors);
 
 
-  std::list<testngram> path = g.bfs(testngram({"this", "is", "a"}), testngram({"if", "it", "works"}));
-
-  */
+  testngram tn1 = testngram({"this", "is", "a"});
+  testngram tn2 = testngram({"if", "it", "works"});
+  std::list<testngram> path = g.bfs(tn1, tn2);
   return "";
 }
 
 
-int test_all(){
+int main(){
   typedef const std::string (*fp)();
   std::list<fp> tests = {test_custom_comparator, test_simple_path, test_non_existing_path, test_2gram,
                          test_ngram_comparator, test_ngram_path};
