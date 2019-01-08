@@ -23,16 +23,16 @@ public:
   graph(std::vector<T> graph_nodes, std::map<T, std::vector<T>> graph_neighbors, bool (*equals_function)(T, T)) : nodes(graph_nodes), neighbors(graph_neighbors), equals(equals_function) {}
   std::list<T> bfs(const T & start, const T & end) const {
     std::map<T, bool> visited = std::map<T, bool>();
-    std::map<T, T> last_node = std::map<T,T>();
+    std::map<T, T const *> last_node = std::map<T,T const *>();
 
     for (T edge : this->nodes)
       visited[edge] = false;
 
-    T current_element = start;
+    T const * current_element = &start;
     T const * last_element = nullptr;
 
-    std::list<T> queue;
-    visited[current_element] = true;
+    std::list<T const *> queue;
+    visited[*current_element] = true;
     queue.push_back(current_element);
 
     while(!queue.empty()){
@@ -42,19 +42,19 @@ public:
       }
       current_element = queue.front();
       queue.pop_front();
-      if(current_element == end){
+      if(*current_element == end){
         if(DEBUG){
           std::cerr << "Found end at " << current_element << std::endl;
         }
-        last_element = &current_element;
+        last_element = current_element;
         break;
       }
 
-      for(const T & neighbor : this->neighbors.find(current_element)->second){
+      for(const T & neighbor : this->neighbors.find(*current_element)->second){
 
         if(!visited[neighbor]){
           visited[neighbor] = true;
-          queue.push_back(neighbor);
+          queue.push_back(&neighbor);
           last_node[neighbor] = current_element;
         }
       }
@@ -73,8 +73,8 @@ public:
       std::clog << "Ends with " << *last_element << std::endl;
       std::clog << "and you can get there from " << last_node[*last_element] << std::endl;
     }
-    while(last_node[answer.front()] != start){
-      answer.push_front(last_node[answer.front()]);
+    while(*last_node[answer.front()] != start){
+      answer.push_front(*last_node[answer.front()]);
     }
     answer.push_front(start);
     return answer;
