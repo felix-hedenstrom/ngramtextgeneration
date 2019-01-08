@@ -106,15 +106,14 @@ const std::string test_ngram_path(){
   neighbors.insert({ngram<std::string>({"see", "if", "it"}), {ngram<std::string>({"if", "it", "works"})}});
 
   graph<testngram> g ({ngram<std::string>({"this", "is", "a"}), ngram<std::string>({"is", "a", "test"}), ngram<std::string>({"is", "a", "thing"}),
-                 ngram<std::string>({"is", "a", "bad"}),
-                 ngram<std::string>({"a", "test", "to"}), ngram<std::string>({"test", "to", "see"}), ngram<std::string>({"to", "see", "if"}),
-                 ngram<std::string>({"to", "see", "when"}),
-                 ngram<std::string>({"see", "if", "it"}), ngram<std::string>({"if", "it", "works"})}, neighbors);
+                 ngram<std::string>({"is", "a", "bad"}), ngram<std::string>({"a", "test", "to"}), ngram<std::string>({"test", "to", "see"}),
+                 ngram<std::string>({"to", "see", "if"}), ngram<std::string>({"to", "see", "when"}), ngram<std::string>({"see", "if", "it"}),
+                 ngram<std::string>({"if", "it", "works"})}, neighbors);
 
 
   testngram tn1 = testngram({"this", "is", "a"});
   testngram tn2 = testngram({"if", "it", "works"});
-  std::list<testngram> path = g.bfs(tn1, tn2);
+  //std::list<testngram> path = g.bfs(tn1, tn2);
   return "";
 }
 

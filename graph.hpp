@@ -8,7 +8,7 @@
 #include <vector>
 #include <unordered_map>
 
-#define DEBUG 0
+#define DEBUG 1
 
 template<class T>
 bool default_equals(T a, T b){
@@ -23,9 +23,11 @@ private:
   const std::map<T, std::vector<T>> neighbors;
   bool (*equals)(T, T);
 public:
+
   graph(std::vector<T> graph_nodes, std::map<T, std::vector<T>> graph_neighbors) : nodes(graph_nodes), neighbors(graph_neighbors), equals([](T a, T b){return a == b;}) {}
   graph(std::vector<T> graph_nodes, std::map<T, std::vector<T>> graph_neighbors, bool (*equals_function)(T, T)) : nodes(graph_nodes), neighbors(graph_neighbors), equals(equals_function) {}
-  std::list<T> bfs(const T & start, const T & end) const {
+
+  std::list<T> bfs(const T & start, const T & end) const{
     std::map<T, bool> visited = std::map<T, bool>();
     std::map<T, T const *> last_node = std::map<T,T const *>();
 
@@ -40,22 +42,21 @@ public:
     queue.push_back(current_element);
 
     while(!queue.empty()){
-      if(DEBUG){
-        std::clog << "was at " << current_element << std::endl;
-        std::clog << "am at " << queue.front() << std::endl;
-      }
+
       current_element = queue.front();
       queue.pop_front();
       if(*current_element == end){
-        if(DEBUG){
-          std::cerr << "Found end at " << current_element << std::endl;
-        }
         last_element = current_element;
         break;
       }
 
       for(const T & neighbor : this->neighbors.find(*current_element)->second){
-
+        if(DEBUG){
+          std::clog << neighbor << std::endl;
+          if(visited.find(neighbor) == visited.end()){
+            std::clog << neighbor << " was not in the map, even though it should be." << std::endl;
+          }
+        }
         if(!visited[neighbor]){
           visited[neighbor] = true;
           queue.push_back(&neighbor);
@@ -65,18 +66,9 @@ public:
     }
 
     if(last_element == nullptr){
-      if(DEBUG){
-        std::cerr << "Didn't find any path..." << std::endl;
-      }
       return std::list<T>();
-    }else if (DEBUG){
-      std::cerr << "Found a path!" << std::endl;
     }
     std::list<T> answer = std::list<T>({*last_element});
-    if(DEBUG){
-      std::clog << "Ends with " << *last_element << std::endl;
-      std::clog << "and you can get there from " << last_node[*last_element] << std::endl;
-    }
     while(*last_node[answer.front()] != start){
       answer.push_front(*last_node[answer.front()]);
     }
@@ -85,4 +77,5 @@ public:
 
   }
 };
+
 #endif
