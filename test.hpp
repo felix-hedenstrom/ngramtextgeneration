@@ -7,7 +7,7 @@
 #include <utility>
 
 const std::string test_simple_path(){
-  std::cerr << "Starting simple path test..."  << std::endl;
+  std::clog << "Starting simple path test..."  << std::endl;
   std::map<int, std::vector<int>> neighbors;
 
   neighbors.insert({1, {2, 3, 4}});
