@@ -49,8 +49,8 @@ const std::string test_custom_comparator(){
   neighbors.insert({2, {1}});
   neighbors.insert({3, {2, 4}});
   neighbors.insert({4, {1, 3}});
-  graph<int> g ({1, 2, 3, 4, 5}, neighbors, [](int a, int b){return (a % 2) == (b % 2);});
-  std::list<int> path = g.bfs(1, 2);
+  graph<int> g ({1, 2, 3, 4, 5, 10}, neighbors, [](int a, int b){return (a % 2) == (b % 2);});
+  std::list<int> path = g.bfs(1, 10);
   if(path.size() == 2){
     return "";
   }

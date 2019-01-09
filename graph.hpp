@@ -45,7 +45,7 @@ public:
 
       current_element = queue.front();
       queue.pop_front();
-      if(*current_element == end){
+      if(equals(*current_element, end)){
         last_element = current_element;
         break;
       }
