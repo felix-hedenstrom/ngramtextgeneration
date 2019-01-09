@@ -9,22 +9,21 @@ template<class T>
 class ngram{
 private:
   const size_t n;
-  const std::vector<T> elements;
-  ngram() : n(0), elements(std::vector<T>()) {}
+  const std::vector<T> * const elements;
+  ngram() : n(0), elements(new std::vector<T>()) {}
 public:
   ngram(const std::vector<T> & ngram_elements) :
     n(ngram_elements.size()),
-    elements(ngram_elements) {}
-
+    elements(new std::vector<T>(ngram_elements.begin(), ngram_elements.end())) {}
   size_t size() const {return this->n; }
   size_t get_size() const {return this->size(); }
 
   // Return a copy of the elements in the ngram
-  const std::vector<T> & get_elements() const { return this->elements; }
+  const std::vector<T> & get_elements() const { return *this->elements; }
 
   // Overloading [] operator
   const T operator[](const size_t & i) const {
-    return this->elements[i];
+    return (*this->elements)[i];
   }
 
   // Overloading << needs access to private variables
@@ -55,9 +54,9 @@ bool operator< (const ngram<T>& lhs, const ngram<T>& rhs){
 // Overloading <<
 template<class T>
 std::ostream& operator<<(std::ostream& stream, const ngram<T> n){
-  stream << "{" << n.elements[0];
-  for (size_t i = 1; i < n.elements.size(); i++){
-    stream << ", " << n.elements[i];
+  stream << "{" << (*n.elements)[0];
+  for (size_t i = 1; i < (*n.elements).size(); i++){
+    stream << ", " << (*n.elements)[i];
   }
   stream << "}";
   return stream;

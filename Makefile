@@ -1,12 +1,15 @@
 all: ngram test
 
-
+.PHONY:
+	valgrind test
 
 ngram: ngramsearcher.cpp *.hpp
 	g++ -o $@ $< -Wall -ljsoncpp
 
+test: test.out
+	./test.out
 
-test: test.cpp *.hpp
+test.out: test.cpp *.hpp
 	g++ -o $@ $< -Wall -g
 
 %.o: %.cpp %.hpp

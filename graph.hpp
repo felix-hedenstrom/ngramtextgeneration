@@ -52,7 +52,6 @@ public:
 
       for(const T & neighbor : this->neighbors.find(*current_element)->second){
         if(DEBUG){
-          std::clog << neighbor << std::endl;
           if(visited.find(neighbor) == visited.end()){
             std::clog << neighbor << " was not in the map, even though it should be." << std::endl;
           }

@@ -113,7 +113,10 @@ const std::string test_ngram_path(){
 
   testngram tn1 = testngram({"this", "is", "a"});
   testngram tn2 = testngram({"if", "it", "works"});
-  //std::list<testngram> path = g.bfs(tn1, tn2);
+  std::list<testngram> path = g.bfs(tn1, tn2);
+  if(path.size() != 7){
+    return "Wrong sized path.";
+  }
   return "";
 }
 
